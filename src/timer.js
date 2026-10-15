@@ -3,7 +3,7 @@ export function totalRounds(mode) {
 }
 
 export function durationSeconds(mode) {
-  return mode === "classic" ? 300 : 180;
+  return 300;
 }
 
 export function speakerForRound(round) {

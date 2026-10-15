@@ -178,6 +178,7 @@ function Practice() {
   const [promptType, setPromptType] = useState("gentle");
   const [prompt, setPrompt] = useState(promptSets[0].prompts[0]);
   const [consent, setConsent] = useState(false);
+  const [showConsentConfirm, setShowConsentConfirm] = useState(false);
   const [running, setRunning] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const startedAtRef = useRef(null);
@@ -214,11 +215,21 @@ function Practice() {
   useEffect(()=>()=>{audioRef.current?.close?.().catch(()=>{});},[]);
 
   function startPause() {
-    if(!consent || state.finished) return;
+    if(state.finished) return;
     if(running) {
       const current=baseElapsedRef.current+(performance.now()-startedAtRef.current)/1000;
       baseElapsedRef.current=current;setElapsed(current);setRunning(false);
-    }else {startedAtRef.current=performance.now();setRunning(true);}
+    }else if(!consent){
+      setShowConsentConfirm(true);
+    }else {
+      startedAtRef.current=performance.now();setRunning(true);
+    }
+  }
+  function acceptAndStart() {
+    setConsent(true);
+    setShowConsentConfirm(false);
+    startedAtRef.current=performance.now();
+    setRunning(true);
   }
   function resetTimer() {setRunning(false);setElapsed(0);baseElapsedRef.current=0;startedAtRef.current=null;lastRoundRef.current=0;}
   function chooseMode(value) {if(running)return;setMode(value);resetTimer();}
@@ -233,7 +244,7 @@ function Practice() {
         <div className="practice-settings">
           <div className="panel-label">01 / 选择练习结构</div>
           <div className="mode-options">
-            <button type="button" className={mode==="gentle"?"mode-card selected":"mode-card"} aria-pressed={mode==="gentle"} onClick={()=>chooseMode("gentle")} disabled={running}><small>日常教学改编</small><strong>温和入门</strong><span>3 分钟 × 4 轮 · 12 分钟</span></button>
+            <button type="button" className={mode==="gentle"?"mode-card selected":"mode-card"} aria-pressed={mode==="gentle"} onClick={()=>chooseMode("gentle")} disabled={running}><small>日常教学改编</small><strong>温和入门</strong><span>5 分钟 × 4 轮 · 20 分钟</span></button>
             <button type="button" className={mode==="classic"?"mode-card selected":"mode-card"} aria-pressed={mode==="classic"} onClick={()=>chooseMode("classic")} disabled={running}><small>经典形式参考</small><strong>结构演示</strong><span>5 分钟 × 8 轮 · 40 分钟</span></button>
           </div>
           {mode==="classic"&&<p className="settings-hint">仅用于认识经典轮换结构，不是完整的三日 Enlightenment Intensive；较深入的练习宜在有经验的带领者支持下进行。</p>}
@@ -242,7 +253,7 @@ function Practice() {
           <p className="prompt-note">{currentSet.note}</p>
           <div className="prompt-choices">{currentSet.prompts.map(q=><button type="button" key={q} disabled={running} className={prompt===q?"prompt-choice active":"prompt-choice"} onClick={()=>choosePrompt(q,currentSet.id)}><span>{q}</span>{prompt===q?<CheckCircle2 size={18}/>:<span className="choice-circle"/>}</button>)}</div>
           <div className="panel-label">03 / 确认双方的共同约定</div>
-          <label className="consent"><input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)}/><span>我们自愿参与，尊重保密、沉默、暂停和退出的权利；不分析、不建议、不逼迫对方揭露私人经历。</span></label>
+          <label className="consent"><input type="checkbox" checked={consent} disabled={running} onChange={e=>{setConsent(e.target.checked);if(e.target.checked)setShowConsentConfirm(false);}}/><span>我们自愿参与，尊重保密、沉默、暂停和退出的权利；不分析、不建议、不逼迫对方揭露私人经历。</span></label>
           <div className="settings-bottom"><label className="sound-choice"><input type="checkbox" checked={sound} onChange={e=>setSound(e.target.checked)}/><Volume2 size={18}/> 换位轻提示音</label><button type="button" className="text-button" onClick={()=>window.print()}><Printer size={17}/>打印练习指引</button></div>
         </div>
 
@@ -252,8 +263,16 @@ function Practice() {
           <div className="clock-display" aria-live="off">{formatClock(state.remaining)}</div>
           <div className="timer-progress"><span style={{width:`${state.elapsed/state.totalSeconds*100}%`}}/></div>
           <div className="timer-focus"><span>这一轮的探问</span><h2>“{prompt}”</h2><p>倾听者先给出一次明确指令；表达者向内探寻并沟通所出现的内容。倾听者不评价，换位时简短说“谢谢”。</p></div>
-          <div className="timer-actions"><button type="button" className="timer-main-btn" disabled={!consent||state.finished} onClick={startPause}>{running?<Pause size={19}/>:<Play size={19}/>} {state.finished?"四轮练习已完成":running?"暂停练习":"开始 / 继续"}</button><button type="button" className="timer-reset" onClick={resetTimer}><RefreshCcw size={18}/><span>重置</span></button></div>
-          {!consent&&<p className="timer-hint">请先确认左侧的共同约定，再启动计时器。</p>}
+          <div className="timer-actions"><button type="button" className="timer-main-btn" disabled={state.finished} onClick={startPause}>{running?<Pause size={19}/>:<Play size={19}/>} {state.finished?"练习已完成":running?"暂停练习":"开始 / 继续"}</button><button type="button" className="timer-reset" onClick={()=>{resetTimer();setShowConsentConfirm(false);}}><RefreshCcw size={18}/><span>重置</span></button></div>
+          {showConsentConfirm&&!consent&&<div className="consent-confirm" role="group" aria-labelledby="consent-confirm-heading">
+            <strong id="consent-confirm-heading">开始前，请与搭档确认共同约定</strong>
+            <p>双方自愿参与；尊重保密、沉默、暂停和退出的权利；不分析或逼迫对方表达。确认后计时器立即开始。</p>
+            <div className="consent-confirm-actions">
+              <button type="button" onClick={acceptAndStart}>已确认，开始练习</button>
+              <button type="button" onClick={()=>setShowConsentConfirm(false)}>暂不开始</button>
+            </div>
+          </div>}
+          {!consent&&!showConsentConfirm&&<p className="timer-hint">点击「开始 / 继续」后可直接确认约定；也可以先勾选左侧的共同约定。</p>}
           {state.finished&&<p className="timer-hint">练习已结束。请先留出至少 3 分钟安静整合，再恢复日常活动。</p>}
           <div className="timer-turns">{Array.from({length:setCount},(_,i)=><span key={i} className={i<state.roundIndex||state.finished?"past":i===state.roundIndex?"present":""}>{i+1}</span>)}</div>
         </div>
@@ -272,7 +291,7 @@ function Guide() {
   return <>
     <PageIntro eyebrow="FACILITATION · 带领者" title={<>学习方法，<br/><em>也学习护持空间。</em></>} description="成熟的带领不是催促别人深入，而是守护同意、结构、节奏和安全。先从一场短时体验与真实情境判断开始。"/>
     <section className="guide-section"><div className="wrap">
-      <SectionHeading eyebrow="30-MINUTE WORKSHOP" title="可以直接使用的初次体验流程">以下为本站教学改编，不是经典顿悟密集的缩短版。带领者应了解适合性筛选与安全边界。</SectionHeading>
+      <SectionHeading eyebrow="40-MINUTE WORKSHOP" title="可以直接使用的初次体验流程">以下为本站教学改编，不是经典顿悟密集的缩短版。带领者应了解适合性筛选与安全边界。</SectionHeading>
       <div className="agenda-layout"><div className="agenda-list">{agenda.map(([time,title,description],i)=><div className="agenda-row" key={time}><div className="agenda-time">{time}<small>分钟</small></div><div className="agenda-marker"><span>{i+1}</span></div><div><h3>{title}</h3><p>{description}</p></div></div>)}</div>
         <aside className="script-card"><span>开场时，可以这样说</span><Quote size={33} strokeWidth={1}/><blockquote>“我们不是来回答一个正确的问题，也不是要把对方修理好。你只需接触此刻真实发生的内容，另一个人安静地陪伴。每个人都有暂停和退出的权利。”</blockquote><strong>带领的两条底线</strong><p>不让方法压过人的自主权；不把强烈情绪或特殊经验当作成果。</p><button type="button" className="print-btn" onClick={()=>window.print()}><Printer size={17}/> 打印这份带领提纲</button></aside></div>
       <div className="guide-divider"/>
