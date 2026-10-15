@@ -17,7 +17,15 @@ with sync_playwright() as p:
         assert page.locator("main h1").count() == 1, (route, "missing heading")
         assert page.locator("main").inner_text().strip(), (route, "empty main content")
         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 2"), (route, "desktop overflow")
+        assert page.locator("img").evaluate_all("images => images.every(img => img.complete && img.naturalWidth > 0)"), (route, "broken illustration")
         print("OK desktop route", route)
+
+    page.goto(BASE + "#/")
+    assert page.locator(".hero-art-refined img").count() == 1, "new hero illustration missing"
+    assert page.locator(".art-face").count() == 0, "outdated CSS figures still rendered"
+    assert page.locator(".learning-cycle-illustration img").count() == 1
+    assert page.locator(".hero-copy h1").evaluate("(node) => node.getBoundingClientRect().height < 200"), "headline broke into too many rows"
+    print("OK editorial hero and educational illustrations")
 
     page.goto(BASE + "#/learn")
     page.get_by_role("button", name="标记本课已学习").click()

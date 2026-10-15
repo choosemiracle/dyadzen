@@ -75,6 +75,13 @@ function MiniNote({ children, kind = "info" }) {
   return <div className={`mini-note mini-note-${kind}`}><ShieldCheck size={21} /><p>{children}</p></div>;
 }
 
+function VisualNote({ src, alt, title, description, className = "" }) {
+  return <figure className={"visual-note " + className} data-reveal>
+    <img src={import.meta.env.BASE_URL + "illustrations/" + src} alt={alt} loading="lazy" decoding="async" />
+    {(title || description) && <figcaption>{title && <strong>{title}</strong>}{description && <span>{description}</span>}</figcaption>}
+  </figure>;
+}
+
 function Home() {
   return <div>
     <section className="hero">
@@ -86,32 +93,30 @@ function Home() {
           <div className="hero-actions"><ButtonLink to="/practice">开始第一次练习</ButtonLink><a className="inline-link" href={href("/learn")}>探索学习课程 <ArrowRight size={18}/></a></div>
           <div className="hero-footer"><span className="tiny-mark">○</span> 不急于给出答案 · 不替彼此解决 · 让真实慢慢浮现</div>
         </div>
-        <div className="hero-art" aria-label="两个人相向而坐，中心留出一片安静的空间" role="img">
-          <div className="art-glow" />
-          <div className="art-ring ring-one"/><div className="art-ring ring-two"/>
-          <div className="art-face art-left"><div className="art-head"/><div className="art-body"/></div>
-          <div className="art-face art-right"><div className="art-head"/><div className="art-body"/></div>
-          <div className="art-center"><span>倾 听</span><span className="art-center-line"/></div>
-          <div className="art-caption">A SPACE BETWEEN US <span>·</span> 共同的静默</div>
+        <div className="hero-art hero-art-refined">
+          <img src={import.meta.env.BASE_URL + "illustrations/dyad-hero.svg"} alt="两位成年人静坐相对，山水与环形微光围绕着他们之间的安静空间" fetchPriority="high" decoding="async" />
+          <span className="hero-breathing-light" aria-hidden="true" />
+          <div className="hero-art-caption"><span>A SPACE BETWEEN US</span><span>倾听 · 探寻 · 共在</span></div>
         </div>
       </div>
       <div className="hero-index wrap"><span>01 / A different way of meeting</span><span>向内探寻 · 向外沟通</span></div>
     </section>
 
-    <section className="promise-section soft-section"><div className="wrap promise-grid">
+    <section className="promise-section soft-section"><div className="wrap promise-grid" data-reveal>
       <div><div className="eyebrow"><span className="eyebrow-rule"/>为什么要这样学习</div><h2 className="editorial-h2">理解，<br />始于亲身经历。</h2></div>
       <div className="promise-copy"><p>读过许多关于觉察的文字，不一定知道如何在真实关系中停下来。二人禅的学习，从一个简单的动作开始：一人带着问题向内接触，一人不评判地倾听。</p><p>本站以成人体验式学习为路径：先亲身感受，再反思发生了什么，理解其中的原则，随后重新尝试。</p><a className="inline-link" href={href("/learn")}>了解八课学习路径 <ArrowRight size={17}/></a></div>
     </div></section>
 
     <section className="journey-section"><div className="wrap">
       <SectionHeading eyebrow="你的学习之路" title="四步循环，让练习有方向">每一个步骤都可以慢慢来。你不需要特殊经验，也不需要向任何人证明自己的深度。</SectionHeading>
+      <VisualNote src="learning-cycle.svg" alt="体验、反思、理解、再实践构成可以不断重复的学习循环" className="learning-cycle-illustration" />
       <div className="journey-steps">
         {[
           ["01","体验","先亲身尝试","从一个小小的双人练习开始。",<Leaf/>],
           ["02","观察","留意发生了什么","看见自己的表达与倾听习惯。",<Compass/>],
           ["03","理解","回到方法与原典","辨明探问、角色、边界的意义。",<BookOpen/>],
           ["04","再实践","把领悟带回生活","尝试下一轮，也尝试不同的日常对话。",<HeartHandshake/>]
-        ].map(([n,title,action,desc,icon])=><div className="journey-item" key={n}>
+        ].map(([n,title,action,desc,icon])=><div className="journey-item" key={n} data-reveal>
           <span className="journey-number">{n}</span><div className="journey-icon">{icon}</div>
           <h3>{title}</h3><strong>{action}</strong><p>{desc}</p>
         </div>)}
@@ -121,9 +126,9 @@ function Home() {
     <section className="door-section"><div className="wrap">
       <SectionHeading eyebrow="从这里开始" title="三个入口，一条属于你的路" centered>不管你是第一次接触，还是准备为别人带领练习，都有清楚的下一步。</SectionHeading>
       <div className="door-grid">
-        <a className="door-card" href={href("/practice")}><div className="door-top"><span>01 · EXPERIENCE</span><Clock3 size={25}/></div><h3>我想先体验</h3><p>了解安全边界，打开计时器，与搭档完成一次温和的双人练习。</p><div className="door-bottom">走进练习室 <ArrowUpRight/></div></a>
-        <a className="door-card" href={href("/learn")}><div className="door-top"><span>02 · LEARNING</span><BookOpen size={25}/></div><h3>我想系统学习</h3><p>跟随八个基础单元，从体验出发，逐步理解探寻与倾听的方法。</p><div className="door-bottom">查看系统课程 <ArrowUpRight/></div></a>
-        <a className="door-card" href={href("/guide")}><div className="door-top"><span>03 · FACILITATION</span><UsersRound size={25}/></div><h3>我想学习带领</h3><p>学习如何维护结构、识别风险，以及在真实情境中作出恰当判断。</p><div className="door-bottom">进入带领者学院 <ArrowUpRight/></div></a>
+        <a className="door-card" href={href("/practice")} data-reveal><div className="door-top"><span>01 · EXPERIENCE</span><Clock3 size={25}/></div><h3>我想先体验</h3><p>了解安全边界，打开计时器，与搭档完成一次温和的双人练习。</p><div className="door-bottom">走进练习室 <ArrowUpRight/></div></a>
+        <a className="door-card" href={href("/learn")} data-reveal><div className="door-top"><span>02 · LEARNING</span><BookOpen size={25}/></div><h3>我想系统学习</h3><p>跟随八个基础单元，从体验出发，逐步理解探寻与倾听的方法。</p><div className="door-bottom">查看系统课程 <ArrowUpRight/></div></a>
+        <a className="door-card" href={href("/guide")} data-reveal><div className="door-top"><span>03 · FACILITATION</span><UsersRound size={25}/></div><h3>我想学习带领</h3><p>学习如何维护结构、识别风险，以及在真实情境中作出恰当判断。</p><div className="door-bottom">进入带领者学院 <ArrowUpRight/></div></a>
       </div>
     </div></section>
 
@@ -159,6 +164,7 @@ function Learn() {
           <div className="lesson-detail-top"><span>LESSON {selected.id} / 08</span><span>{selected.minutes} MIN · EXPERIENCE-BASED</span></div>
           <h2>{selected.title}</h2><p className="lesson-intro">{selected.intro}</p>
           <div className="lesson-outcome"><Lightbulb size={19}/><p><strong>这节课希望你学会：</strong>{selected.outcome}</p></div>
+          <div className="learning-map"><img src={import.meta.env.BASE_URL + "illustrations/learning-cycle.svg"} alt="" loading="lazy" /><p><strong>四个学习环节</strong>体验、反思、理解，再回到实践。你可以按自己的节奏重复这轮学习。</p></div>
           <div className="lesson-cycle">
             <div className="cycle-step"><span>01 / 先体验</span><h3>让身体先知道</h3><p>{selected.experience}</p></div>
             <div className="cycle-step"><span>02 / 再反思</span><h3>发生了什么？</h3><ul>{selected.reflect.map(q=><li key={q}>{q}</li>)}</ul></div>
@@ -284,6 +290,7 @@ function Practice() {
         </div>
       </div>
 
+      <VisualNote src="dyad-process.svg" alt="两个人面向中间的共同空间，一方探寻并表达，一方专注倾听" title="二人之间，留出一段不被打断的空间。" description="结构帮助我们守住时间与角色；真正重要的是探寻者的自主，以及倾听者不接管对方的过程。" className="practice-visual" />
       <div className="integration-section"><SectionHeading eyebrow="AFTER THE PRACTICE" title="真正的学习，发生在练习之后。">留出一点安静，不急着讨论对方，更不用解释或评价彼此的体验。</SectionHeading>
         <div className="integration-grid">{[["身体","此刻身体里有什么变化？"],["表达","我何时开始解释、表演或保护自己？"],["倾听","我什么时候最想给建议？"],["生活","我愿意把什么小小的发现带回今天？"]].map(([t,p],i)=><div className="integration-card" key={t}><span>0{i+1} / {t}</span><p>{p}</p></div>)}</div>
         <p className="privacy-line"><ShieldCheck size={16}/> 本站不会保存你的探问内容、录音或复盘文字。你可以自己在纸上书写，也可以选择不记录。</p>
@@ -298,6 +305,7 @@ function Guide() {
     <PageIntro eyebrow="FACILITATION · 带领者" title={<>学习方法，<br/><em>也学习护持空间。</em></>} description="成熟的带领不是催促别人深入，而是守护同意、结构、节奏和安全。先从一场短时体验与真实情境判断开始。"/>
     <section className="guide-section"><div className="wrap">
       <SectionHeading eyebrow="40-MINUTE WORKSHOP" title="可以直接使用的初次体验流程">以下为本站教学改编，不是经典顿悟密集的缩短版。带领者应了解适合性筛选与安全边界。</SectionHeading>
+      <VisualNote src="dyad-process.svg" alt="双人练习中探寻者与倾听者的角色示意" title="一方真实表达，一方安静接收。" description="带领者所守护的，正是这段不被打断的双人空间。" className="guide-visual" />
       <div className="agenda-layout"><div className="agenda-list">{agenda.map(([time,title,description],i)=><div className="agenda-row" key={time}><div className="agenda-time">{time}<small>分钟</small></div><div className="agenda-marker"><span>{i+1}</span></div><div><h3>{title}</h3><p>{description}</p></div></div>)}</div>
         <aside className="script-card"><span>开场时，可以这样说</span><Quote size={33} strokeWidth={1}/><blockquote>“我们不是来回答一个正确的问题，也不是要把对方修理好。你只需接触此刻真实发生的内容，另一个人安静地陪伴。每个人都有暂停和退出的权利。”</blockquote><strong>带领的两条底线</strong><p>不让方法压过人的自主权；不把强烈情绪或特殊经验当作成果。</p><button type="button" className="print-btn" onClick={()=>window.print()}><Printer size={17}/> 打印这份带领提纲</button></aside></div>
       <div className="guide-divider"/>
@@ -316,6 +324,7 @@ function Library() {
     <PageIntro eyebrow="LIBRARY · 研究文库" title={<>从原典出发，<br/><em>尊重方法的来处。</em></>} description="区分经典原典、当代实践、教学改编与尚待验证的解释。我们愿意对资料的来源负责，也对每个参与者的真实经验保持谦逊。"/>
     <section className="library-section"><div className="wrap">
       <SectionHeading eyebrow="CLASSICAL & GENTLE" title="经典顿悟密集，与本站入门练习">两者都珍惜直接探寻与安静接收，但目标、强度、组织条件并不相同。</SectionHeading>
+      <VisualNote src="dyad-lineage.svg" alt="从 Charles Berner 的顿悟密集，到经典方法与现代学习改编形成各自清楚的路径" title="同一个源头，不同的实践目标。" description="这张源流图帮助辨认传统与当代改编之间的关系，而不是将两者说成完全相同的方法。" className="library-lineage-visual" />
       <div className="compare-grid"><div className="compare-card deep"><span>ENLIGHTENMENT INTENSIVE</span><h3>经典顿悟密集</h3><p>Charles Berner 在 20 世纪 60 年代创立。典型为三日密集静修，以“我是谁”等根本探问持续进行，双人练习常采用 40 分钟、每 5 分钟换位的结构。</p><strong>目的：直接探寻生命的根本问题。</strong></div><div className="compare-card"><span>GENTLE DYAD PRACTICE</span><h3>本站温和改编</h3><p>将聚焦、探问、沟通与轮换转化成有清楚边界的短时练习，帮助初学者体验倾听与表达。</p><strong>目的：学习稳定、可整合的日常实践。</strong></div></div>
       <div className="principle-strip">{[["聚焦","Focus"],["意向","Intention"],["开放","Openness"],["沟通","Communication"]].map(([cn,en],i)=><div key={cn}><small>0{i+1}</small><strong>{cn}</strong><span>{en}</span></div>)}</div>
       <SectionHeading eyebrow="ORIGINAL SOURCES" title="阅读资料，而不是只相信总结">下列为公开可查的资料入口。原典中的精神性目标是其传统自身的表达，不应误写成普遍已证实的心理治疗效果。</SectionHeading>
@@ -349,6 +358,18 @@ function Footer() {
 
 function App() {
   const route=useRoute();
+  useEffect(()=>{
+    if(window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+    document.documentElement.classList.add("enhanced-motion");
+    const nodes=Array.from(document.querySelectorAll("[data-reveal]"));
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){entry.target.classList.add("is-revealed");observer.unobserve(entry.target);}
+      });
+    },{threshold:0.06,rootMargin:"0px 0px 45px 0px"});
+    nodes.forEach(node=>observer.observe(node));
+    return ()=>observer.disconnect();
+  },[route]);
   return <><a className="skip-link" href="#main">跳转到正文</a><Header route={route}/><main id="main">{route==="/learn"?<Learn/>:route==="/practice"?<Practice/>:route==="/guide"?<Guide/>:route==="/library"?<Library/>:route==="/community"?<Community/>:<Home/>}</main><Footer/></>;
 }
 
