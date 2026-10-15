@@ -18,6 +18,9 @@ with sync_playwright() as p:
         assert page.locator("main h1").count() == 1, (route, "missing heading")
         assert page.locator("main").inner_text().strip(), (route, "empty main content")
         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 2"), (route, "desktop overflow")
+        for illustration in page.locator("img").all():
+            illustration.scroll_into_view_if_needed()
+            illustration.evaluate("(img) => img.decode().catch(() => {})")
         assert page.locator("img").evaluate_all("images => images.every(img => img.complete && img.naturalWidth > 0)"), (route, "broken illustration")
         print("OK desktop route", route)
 
