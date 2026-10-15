@@ -30,7 +30,9 @@ Vite base 为 `/dyadzen/`，适配 GitHub Pages 子路径。工作流：`.github
 
 ## 发布
 
-推送 `main` 后触发 Actions。仓库的 **Settings → Pages → Build and deployment → Source** 首次需要设为 **GitHub Actions**；然后发布到 https://choosemiracle.github.io/dyadzen/ 。
+网站开发入口为 `index.source.html`。`npm run build` 会生成 `dist/index.html`，并同步一份完整的生产文件到仓库根目录的 `index.html`、`assets/`、`illustrations/` 与 `favicon.svg`。这兼容当前 GitHub Pages 的 `main / (root)` 发布方式，也兼容 Actions 构建发布，避免把开发入口作为生产网页。
+
+本地开发访问 `http://localhost:5173/dyadzen/index.source.html#/`。每次提交源码前先执行 `npm run build` 并一并提交新的根目录静态文件。正式地址 https://choosemiracle.github.io/dyadzen/ 。
 
 ## 文献
 

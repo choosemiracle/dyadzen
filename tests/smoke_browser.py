@@ -1,9 +1,10 @@
 """Manual browser smoke tests for Dyad Zen. Requires Python Playwright and Chrome.
 Run from project root using the interpreter that has Playwright installed.
 """
+import os
 from playwright.sync_api import sync_playwright
 
-BASE = "http://127.0.0.1:5173/dyadzen/"
+BASE = os.environ.get("DYADZEN_TEST_BASE", "http://127.0.0.1:5173/dyadzen/index.source.html")
 ROUTES = ["/", "/learn", "/practice", "/guide", "/library", "/community"]
 
 with sync_playwright() as p:
