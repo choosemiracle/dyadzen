@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+<title id="title">二人禅的思想来源与方法形成</title><desc id="desc">以根本探问为焦点，与另一人真实沟通相结合，于1968年形成Charles Berner的结构化双人探寻实验。</desc>
+<defs>
+<linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7f4eb"/><stop offset="1" stop-color="#e5ece4"/></linearGradient>
+<radialGradient id="orb"><stop stop-color="#ebd6ac" stop-opacity=".85"/><stop offset=".4" stop-color="#d8c3a1" stop-opacity=".28"/><stop offset="1" stop-color="#8fb19b" stop-opacity="0"/></radialGradient>
+<linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#355d4c"/><stop offset="1" stop-color="#173d35"/></linearGradient>
+</defs>
+<rect width="1200" height="560" rx="14" fill="url(#paper)"/>
+<path d="M0 444C187 410 290 493 464 456s309-65 460-5 203 0 276-21v130H0Z" fill="#dfe7da" opacity=".8"/>
+<path d="M78 100h105" stroke="#b08d71" stroke-width="2"/><text x="80" y="84" font-family="Georgia,serif" fill="#9c806b" font-size="14" letter-spacing="3">TWO STREAMS</text>
+<g transform="translate(190 226)">
+<circle r="130" fill="none" stroke="#b4c8b5" stroke-width="1.6"/><circle r="97" fill="none" stroke="#c0ad8a" stroke-width="1.6"/><circle r="62" fill="url(#orb)"/><circle r="10" fill="#ac8b67"/><circle r="4" fill="#fff3d7"/>
+<path d="M0-157v-45M-153 0h-40M152 0h40" stroke="#c2d0be" stroke-width="1.2"/>
+</g>
+<g font-family="system-ui,sans-serif" text-anchor="middle" fill="#355e4a">
+<text x="190" y="400" font-size="29" font-weight="600">持续的根本探问</text>
+<text x="190" y="430" font-size="17" fill="#8d806c">“我是谁？”</text>
+<text x="190" y="460" font-size="12" fill="#9ea99c" letter-spacing="2">INNER CONTEMPLATION</text>
+</g>
+<g transform="translate(818 225)">
+<circle cx="0" cy="0" r="130" fill="none" stroke="#b7cbb7"/>
+<circle cx="0" cy="0" r="88" fill="url(#orb)"/>
+<circle cx="-84" cy="-11" r="26" fill="#c4aa8b"/><path d="M-105-19q3-30 25-29 24 2 23 31" fill="#2d5044"/>
+<path d="M-146 96q5-63 57-67 43-2 56 67" fill="#afbca9"/>
+<circle cx="84" cy="-11" r="26" fill="#d3b591"/><path d="M63-19q3-30 25-29 24 2 23 31" fill="#2d5044"/>
+<path d="M32 96q5-63 57-67 43-2 56 67" fill="#c5ae96"/>
+<circle r="10" fill="#d7b78c"/><circle r="3" fill="#fff8e8"/>
+</g>
+<g font-family="system-ui,sans-serif" text-anchor="middle" fill="#355e4a">
+<text x="818" y="400" font-size="29" font-weight="600">面对面的真实沟通</text>
+<text x="818" y="430" font-size="17" fill="#8d806c">表达与专注接收</text>
+<text x="818" y="460" font-size="12" fill="#9ea99c" letter-spacing="2">DIRECT COMMUNICATION</text>
+</g>
+<g>
+<path d="M327 228h140m-9-6 10 6-10 6" stroke="#9caa97" stroke-width="1.8" fill="none"/>
+<path d="M682 228h-75m8-6-10 6 10 6" stroke="#9caa97" stroke-width="1.8" fill="none"/>
+<circle cx="536" cy="228" r="83" fill="url(#green)"/>
+<circle cx="536" cy="228" r="68" fill="none" stroke="#9fae9b" stroke-opacity=".65"/>
+<circle cx="536" cy="228" r="49" fill="none" stroke="#d8c49f" stroke-opacity=".75"/>
+<text x="536" y="211" font-family="system-ui,sans-serif" text-anchor="middle" font-weight="600" fill="#f7efdc" font-size="21">二人禅</text>
+<text x="536" y="245" font-family="Georgia,serif" text-anchor="middle" fill="#d8c49f" font-size="16">DYAD</text>
+<path d="M536 311v90" stroke="#c0a585" stroke-width="2"/>
+<circle cx="536" cy="409" r="6" fill="#be9773"/>
+<rect x="418" y="419" width="236" height="70" rx="35" fill="#e8efe5" stroke="#b2c9b4"/>
+<text x="536" y="447" text-anchor="middle" font-family="Georgia,serif" fill="#a57d62" font-size="16">1968</text>
+<text x="536" y="469" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#365d4d">Charles Berner 的实验</text>
+</g></svg>

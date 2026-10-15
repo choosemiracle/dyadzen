@@ -5,7 +5,7 @@ import os
 from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get("DYADZEN_TEST_BASE", "http://127.0.0.1:5173/dyadzen/index.source.html")
-ROUTES = ["/", "/learn", "/practice", "/guide", "/library", "/community"]
+ROUTES = ["/", "/learn", "/practice", "/history", "/nvc", "/guide", "/library", "/community"]
 
 with sync_playwright() as p:
     browser = p.chromium.launch(channel="chrome", headless=True)
@@ -31,6 +31,26 @@ with sync_playwright() as p:
     assert page.locator(".hero-copy h1").evaluate("(node) => node.getBoundingClientRect().height < 200"), "headline broke into too many rows"
     print("OK editorial hero and educational illustrations")
 
+    page.goto(BASE + "#/history")
+    assert page.locator(".exp-time-item").count() == 9
+    assert page.locator(".exp-book-entry").count() == 3
+    page.get_by_role("link", name="发展时间轴").click()
+    assert page.url.endswith("#/history"), "in-page timeline navigation unexpectedly switched routes"
+    assert page.locator("#history-timeline").is_visible()
+    assert page.locator(".exp-source").count() == 6
+    print("OK sourced history timeline and publication chronology")
+
+    page.goto(BASE + "#/nvc")
+    assert page.locator(".exp-nvc-four article").count() == 4
+    assert page.locator(".exp-session-rows article").count() == 6
+    page.get_by_role("button", name="伙伴协作").click()
+    assert page.get_by_text("大家总把事情推给我。").is_visible()
+    page.get_by_role("button", name="亲子沟通").click()
+    assert page.get_by_text("你怎么老是不听我的？").is_visible()
+    page.get_by_role("link", name="60 分钟带领流程").click()
+    assert page.url.endswith("#/nvc"), "NVC in-page navigation unexpectedly switched routes"
+    print("OK NVC example selector and guided practice")
+
     page.goto(BASE + "#/learn")
     page.get_by_role("button", name="标记本课已学习").click()
     assert "01" in page.evaluate("localStorage.getItem('dyadzen-completed-v1')")
@@ -40,6 +60,9 @@ with sync_playwright() as p:
     print("OK learning progress and persistence")
 
     page.goto(BASE + "#/practice")
+    page.get_by_role("button", name="关系探索 × NVC").click()
+    assert page.get_by_text("当我想到这段关系时，此刻注意到了什么？").first.is_visible()
+    page.get_by_role("button", name="温和入门", exact=True).last.click()
     start = page.get_by_role("button", name="开始 / 继续")
     assert start.is_enabled()
     assert page.locator(".clock-display").inner_text() == "05:00"

@@ -7,11 +7,13 @@ import {
   Volume2, BookMarked, Quote, Lightbulb, MoveRight, HandHeart, CalendarDays
 } from "lucide-react";
 import { lessons, promptSets, cases, references, agenda, comparisons } from "./content.js";
+import { History, Nvc } from "./ExplorationPages.jsx";
 import { timingState, formatClock, speakerForRound, listenerForRound, totalRounds } from "./timer.js";
 import "./styles.css";
 
 const navItems = [
   ["/", "首页"], ["/learn", "系统课程"], ["/practice", "练习室"],
+  ["/history", "源流历史"], ["/nvc", "NVC 整合"],
   ["/guide", "带领者"], ["/library", "研究文库"], ["/community", "共同体"],
 ];
 
@@ -135,6 +137,20 @@ function Home() {
     <section className="lineage-band"><div className="wrap lineage-band-grid">
       <div><span className="eyebrow light-eyebrow"><span className="eyebrow-rule"/>ROOTS & ADAPTATION</span><h2>尊重经典，<br />也尊重今天的学习者。</h2></div>
       <div><p>经典的 Enlightenment Intensive 由 Charles Berner 发展，典型形式包含三日密集静修，以及 40 分钟、每 5 分钟轮换角色的双人探寻。本站的四轮短练习是教学改编，并不等同于完整顿悟密集。</p><a className="inline-link light-link" href={href("/library")}>认识方法源流与研究边界 <ArrowRight size={17}/></a></div>
+    </div></section>
+
+    <section className="home-exploration"><div className="wrap">
+      <SectionHeading eyebrow="更进一步 · 研究与应用" title="从理解方法的来处，走向真实生活。">追溯它为何诞生、如何被修订；也学习如何将探寻后的发现，带进有同理心的对话。</SectionHeading>
+      <div className="home-exploration-grid">
+        <a href={href("/history")} className="home-exploration-card">
+          <img src={import.meta.env.BASE_URL + "illustrations/dyad-origins.svg"} alt="二人禅思想来源的图示" loading="lazy"/>
+          <div><span>HISTORY · ORIGINS</span><h3>二人禅的缘起、发展与演变</h3><p>从 1968 年实验、带领者手册到今天的不同实践路线。</p><strong>阅读完整历史专题 <ArrowUpRight size={17}/></strong></div>
+        </a>
+        <a href={href("/nvc")} className="home-exploration-card">
+          <img src={import.meta.env.BASE_URL + "illustrations/dyad-nvc-bridge.svg"} alt="二人禅与NVC的分阶段学习结构图" loading="lazy"/>
+          <div><span>APPLICATION · NVC</span><h3>从双人探寻，走向非暴力沟通</h3><p>观察、感受、需要、请求，以及一场可直接带领的 60 分钟体验。</p><strong>探索整合实践 <ArrowUpRight size={17}/></strong></div>
+        </a>
+      </div>
     </div></section>
 
     <section className="home-close"><div className="wrap"><div className="close-quote"><Quote size={30} strokeWidth={1}/><blockquote>有些答案，<br/>需要在真正被听见时，<em>才慢慢出现。</em></blockquote><p>我们不替彼此寻找答案，只共同守护探寻的空间。</p><ButtonLink to="/practice">开启第一次练习</ButtonLink></div></div></section>
@@ -328,6 +344,10 @@ function Library() {
       <div className="compare-grid"><div className="compare-card deep"><span>ENLIGHTENMENT INTENSIVE</span><h3>经典顿悟密集</h3><p>Charles Berner 在 20 世纪 60 年代创立。典型为三日密集静修，以“我是谁”等根本探问持续进行，双人练习常采用 40 分钟、每 5 分钟换位的结构。</p><strong>目的：直接探寻生命的根本问题。</strong></div><div className="compare-card"><span>GENTLE DYAD PRACTICE</span><h3>本站温和改编</h3><p>将聚焦、探问、沟通与轮换转化成有清楚边界的短时练习，帮助初学者体验倾听与表达。</p><strong>目的：学习稳定、可整合的日常实践。</strong></div></div>
       <div className="principle-strip">{[["聚焦","Focus"],["意向","Intention"],["开放","Openness"],["沟通","Communication"]].map(([cn,en],i)=><div key={cn}><small>0{i+1}</small><strong>{cn}</strong><span>{en}</span></div>)}</div>
       <SectionHeading eyebrow="ORIGINAL SOURCES" title="阅读资料，而不是只相信总结">下列为公开可查的资料入口。原典中的精神性目标是其传统自身的表达，不应误写成普遍已证实的心理治疗效果。</SectionHeading>
+      <div className="library-topic-paths">
+        <a href={href("/history")}><span>HISTORY · 源流专题</span><strong>从 1968 年创立，到 2005 年关键修订</strong><ArrowUpRight size={18}/></a>
+        <a href={href("/nvc")}><span>APPLICATION · 整合专题</span><strong>二人禅与非暴力沟通：界限、情境及带领流程</strong><ArrowUpRight size={18}/></a>
+      </div>
       <div className="filter-row" aria-label="按文献类别筛选">{types.map(t=><button type="button" key={t} onClick={()=>setFilter(t)} className={filter===t?"active":""}>{t}</button>)}</div>
       <div className="refs-grid">{filtered.map(r=><a className="ref-card" key={r.title} href={r.url} target="_blank" rel="noopener noreferrer"><div className="ref-header"><span>{r.type}</span><ArrowUpRight size={19}/></div><h3>{r.title}</h3><small>{r.author}</small><p>{r.description}</p><div>{r.status} · 查看来源 ↗</div></a>)}</div>
       <SectionHeading eyebrow="METHOD DISTINCTION" title="和信任圈：相遇，却不混同">两者都重视不替他人作答的关系伦理，但不能将它们视为同一套技术。</SectionHeading>
@@ -353,7 +373,7 @@ function Community() {
 }
 
 function Footer() {
-  return <footer className="site-footer"><div className="wrap"><div className="footer-top"><div><Brand/><p>在相遇中探寻 · 在静默中聆听<br/>让体验成为理解，让理解回到生活。</p></div><div className="footer-col"><strong>继续探索</strong><a href={href("/learn")}>基础八课</a><a href={href("/practice")}>双人练习室</a><a href={href("/guide")}>带领者学院</a></div><div className="footer-col"><strong>研究与链接</strong><a href={href("/library")}>原典与资源</a><a href={href("/community")}>练习共同体</a><a href="https://choosemiracle.github.io/dyad/" target="_blank" rel="noopener noreferrer">访问旧版网站 ↗</a></div></div><div className="footer-bottom"><span>© 2026 二人禅学习与实践中心 · Dyad Zen</span><span>学习与实践资源 · 不替代心理治疗 · 尊重自主与保密</span></div></div></footer>;
+  return <footer className="site-footer"><div className="wrap"><div className="footer-top"><div><Brand/><p>在相遇中探寻 · 在静默中聆听<br/>让体验成为理解，让理解回到生活。</p></div><div className="footer-col"><strong>继续探索</strong><a href={href("/learn")}>基础八课</a><a href={href("/practice")}>双人练习室</a><a href={href("/guide")}>带领者学院</a></div><div className="footer-col"><strong>研究与链接</strong><a href={href("/history")}>缘起与发展</a><a href={href("/nvc")}>二人禅 × NVC</a><a href={href("/library")}>原典与资源</a><a href="https://choosemiracle.github.io/dyad/" target="_blank" rel="noopener noreferrer">访问旧版网站 ↗</a></div></div><div className="footer-bottom"><span>© 2026 二人禅学习与实践中心 · Dyad Zen</span><span>学习与实践资源 · 不替代心理治疗 · 尊重自主与保密</span></div></div></footer>;
 }
 
 function App() {
@@ -370,7 +390,7 @@ function App() {
     nodes.forEach(node=>observer.observe(node));
     return ()=>observer.disconnect();
   },[route]);
-  return <><a className="skip-link" href="#main">跳转到正文</a><Header route={route}/><main id="main">{route==="/learn"?<Learn/>:route==="/practice"?<Practice/>:route==="/guide"?<Guide/>:route==="/library"?<Library/>:route==="/community"?<Community/>:<Home/>}</main><Footer/></>;
+  return <><a className="skip-link" href="#main">跳转到正文</a><Header route={route}/><main id="main">{route==="/learn"?<Learn/>:route==="/practice"?<Practice/>:route==="/history"?<History/>:route==="/nvc"?<Nvc/>:route==="/guide"?<Guide/>:route==="/library"?<Library/>:route==="/community"?<Community/>:<Home/>}</main><Footer/></>;
 }
 
 createRoot(document.getElementById("root")).render(<App/>);
