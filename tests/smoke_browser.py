@@ -46,6 +46,8 @@ with sync_playwright() as p:
     page.get_by_role("checkbox").first.uncheck()
     start.click()
     assert page.get_by_text("开始前，请与搭档确认共同约定").is_visible()
+    assert page.get_by_role("dialog").is_visible()
+    page.get_by_role("button", name="暂不开始").click()
     page.get_by_role("checkbox").first.check()
     assert not page.get_by_text("开始前，请与搭档确认共同约定").is_visible()
     assert start.is_enabled()

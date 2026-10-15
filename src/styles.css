@@ -19,6 +19,9 @@
 /* FOOTER */
 .site-footer{background:#1f3c32;padding:67px 0 25px;color:#f1f0e3}.site-footer .brand{color:#f0e9da}.site-footer .brand-symbol i{border-color:#bbd1b5}.site-footer .brand-symbol i+i{border-color:#d4a783}.site-footer .brand-name small{color:#b9c7b9}.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:50px;padding-bottom:53px}.footer-top>div:first-child p{color:#b5cbbd;font-size:13px;margin-top:27px}.footer-col{display:grid;align-content:start;gap:16px}.footer-col strong{color:#e3d1ae;font-size:13px;margin-bottom:9px}.footer-col a{text-decoration:none;color:#b9c7bb;font-size:13px}.footer-col a:hover{color:#fff}.footer-bottom{border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:25px;color:#8da899;font-size:11px;letter-spacing:.02em}
 
+/* Keep the opt-in confirmation visible even when the timer is near the bottom of the screen. */
+.consent-confirm-backdrop{position:fixed;inset:0;z-index:110;display:grid;place-items:center;padding:20px;background:rgba(22,42,34,.62);backdrop-filter:blur(3px)}
+.consent-confirm-backdrop .consent-confirm{width:min(100%,490px);max-height:calc(100vh - 40px);overflow-y:auto;margin:0;padding:28px;box-shadow:0 20px 70px rgba(12,33,25,.35)}
 /* Consent confirmation remains clickable even when agreement is not checked yet. */
 .consent-confirm{background:#f3efdf;border:1px solid #e0c6a1;color:#254b3d;border-radius:5px;padding:19px;margin-top:17px}
 .consent-confirm strong{display:block;font-size:15px;line-height:1.6}

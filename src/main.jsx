@@ -179,6 +179,7 @@ function Practice() {
   const [prompt, setPrompt] = useState(promptSets[0].prompts[0]);
   const [consent, setConsent] = useState(false);
   const [showConsentConfirm, setShowConsentConfirm] = useState(false);
+  const confirmButtonRef = useRef(null);
   const [running, setRunning] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const startedAtRef = useRef(null);
@@ -188,6 +189,9 @@ function Practice() {
   const [sound, setSound] = useState(true);
   const state = useMemo(()=>timingState(elapsed,mode),[elapsed,mode]);
   const currentSet = promptSets.find(s=>s.id===promptType);
+  useEffect(()=>{
+    if(showConsentConfirm) confirmButtonRef.current?.focus();
+  },[showConsentConfirm]);
   useEffect(()=>{
     if (!running) return undefined;
     const id = window.setInterval(()=>{
@@ -264,12 +268,14 @@ function Practice() {
           <div className="timer-progress"><span style={{width:`${state.elapsed/state.totalSeconds*100}%`}}/></div>
           <div className="timer-focus"><span>这一轮的探问</span><h2>“{prompt}”</h2><p>倾听者先给出一次明确指令；表达者向内探寻并沟通所出现的内容。倾听者不评价，换位时简短说“谢谢”。</p></div>
           <div className="timer-actions"><button type="button" className="timer-main-btn" disabled={state.finished} onClick={startPause}>{running?<Pause size={19}/>:<Play size={19}/>} {state.finished?"练习已完成":running?"暂停练习":"开始 / 继续"}</button><button type="button" className="timer-reset" onClick={()=>{resetTimer();setShowConsentConfirm(false);}}><RefreshCcw size={18}/><span>重置</span></button></div>
-          {showConsentConfirm&&!consent&&<div className="consent-confirm" role="group" aria-labelledby="consent-confirm-heading">
+          {showConsentConfirm&&!consent&&<div className="consent-confirm-backdrop">
+            <div className="consent-confirm" role="dialog" aria-modal="true" aria-labelledby="consent-confirm-heading" onKeyDown={e=>{if(e.key==="Escape")setShowConsentConfirm(false);}}>
             <strong id="consent-confirm-heading">开始前，请与搭档确认共同约定</strong>
             <p>双方自愿参与；尊重保密、沉默、暂停和退出的权利；不分析或逼迫对方表达。确认后计时器立即开始。</p>
             <div className="consent-confirm-actions">
-              <button type="button" onClick={acceptAndStart}>已确认，开始练习</button>
+              <button type="button" ref={confirmButtonRef} onClick={acceptAndStart}>已确认，开始练习</button>
               <button type="button" onClick={()=>setShowConsentConfirm(false)}>暂不开始</button>
+            </div>
             </div>
           </div>}
           {!consent&&!showConsentConfirm&&<p className="timer-hint">点击「开始 / 继续」后可直接确认约定；也可以先勾选左侧的共同约定。</p>}
